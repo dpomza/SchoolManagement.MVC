@@ -33,7 +33,7 @@ namespace SchoolManagement.MVC.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
+            var course = _context.Courses
                 .Include(c => c.Teacher)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
@@ -41,7 +41,7 @@ namespace SchoolManagement.MVC.Controllers
                 return NotFound();
             }
 
-            return View(course);
+            return View(await course);
         }
 
         // GET: Courses/Create

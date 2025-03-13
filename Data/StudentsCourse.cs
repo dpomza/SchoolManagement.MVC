@@ -20,5 +20,9 @@ public partial class StudentsCourse
     public int StudentId { get; set; }
     public Student? Student { get; set; } 
 
- 
+    // Student fullname
+    public string StudentFullName => Student?.LastName + ", " + Student?.FirstName;
+    // Course name
+    public string CourseName => Course?.Name;
+    
 }

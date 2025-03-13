@@ -48,8 +48,8 @@ namespace SchoolManagement.MVC.Controllers
         // GET: StudentsCourses/Create
         public IActionResult Create()
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id");
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id");
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name");
+            ViewData["StudentId"] = new SelectList(_context.Students .Select(s => new { s.Id, FullName = s.LastName + ", " + s.FirstName }), "Id", "FullName");
             return View();
         }
 
@@ -66,8 +66,9 @@ namespace SchoolManagement.MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", studentsCourse.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id", studentsCourse.StudentId);
+          
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", studentsCourse.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Students .Select(s => new { s.Id, FullName = s.LastName + ", " + s.FirstName }), "Id", "FullName", studentsCourse.StudentId);
             return View(studentsCourse);
         }
 
@@ -84,8 +85,8 @@ namespace SchoolManagement.MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", studentsCourse.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id", studentsCourse.StudentId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", studentsCourse.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Students .Select(s => new { s.Id, FullName = s.LastName + ", " + s.FirstName }), "Id", "FullName", studentsCourse.StudentId);
             return View(studentsCourse);
         }
 
@@ -121,8 +122,8 @@ namespace SchoolManagement.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", studentsCourse.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id", studentsCourse.StudentId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", studentsCourse.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Students .Select(s => new { s.Id, FullName = s.LastName + ", " + s.FirstName }), "Id", "FullName", studentsCourse.StudentId);
             return View(studentsCourse);
         }
 

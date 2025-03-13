@@ -15,4 +15,10 @@ public partial class Grade
     public int StudentCourseId { get; set; }
     public StudentsCourse? StudentsCourse { get; set; } 
 
+    // StudentCourse fullname
+    public string StudentFullName => StudentsCourse?.Student.LastName + ", " + StudentsCourse?.Student.FirstName;
+
+    // Course name
+    public string CourseName => StudentsCourse?.Course.Name;    
+
 }

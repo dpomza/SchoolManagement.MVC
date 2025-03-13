@@ -22,8 +22,12 @@ namespace SchoolManagement.MVC.Controllers
         // GET: Grades
         public async Task<IActionResult> Index()
         {
-            var schoolMngmntDbContext = _context.Grades.Include(g => g.StudentsCourse);
-            return View(await schoolMngmntDbContext.ToListAsync());
+            var GradesContext = _context.Grades
+                .Include(g => g.StudentsCourse)
+                .ThenInclude(sc => sc.Student)
+                .Include(g => g.StudentsCourse)
+                .ThenInclude(sc => sc.Course);
+            return View(await GradesContext.ToListAsync());
         }
 
         // GET: Grades/Details/5
@@ -36,6 +40,9 @@ namespace SchoolManagement.MVC.Controllers
 
             var grade = await _context.Grades
                 .Include(g => g.StudentsCourse)
+                .ThenInclude(sc => sc.Student)
+                .Include(g => g.StudentsCourse)
+                .ThenInclude(sc => sc.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (grade == null)
             {

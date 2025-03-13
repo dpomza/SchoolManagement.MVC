@@ -34,8 +34,8 @@
                 @Html.DisplayFor(modelItem => item.DateRecorded)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentsCourse.Course.Name)
-                @Html.DisplayFor(modelItem => item.StudentsCourse.Student.LastName)
+                @Html.DisplayFor(modelItem => item.StudentFullName)/
+                @Html.DisplayFor(modelItem => item.CourseName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
