@@ -48,7 +48,7 @@ namespace SchoolManagement.MVC.Controllers
         // GET: StudentsCourses/Create
         public IActionResult Create()
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name");
+            ViewData["CourseId"] = new SelectList(_context.Courses .Select(co => new { co.Id, CourseName = co.Name }), "Id", "CourseName");
             ViewData["StudentId"] = new SelectList(_context.Students .Select(s => new { s.Id, FullName = s.LastName + ", " + s.FirstName }), "Id", "FullName");
             return View();
         }
@@ -67,7 +67,7 @@ namespace SchoolManagement.MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
           
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", studentsCourse.CourseId);
+            ViewData["CourseId"] = new SelectList(_context.Courses .Select(co => new { co.Id, CourseName = co.Name }), "Id", "CourseName", studentsCourse.CourseId);
             ViewData["StudentId"] = new SelectList(_context.Students .Select(s => new { s.Id, FullName = s.LastName + ", " + s.FirstName }), "Id", "FullName", studentsCourse.StudentId);
             return View(studentsCourse);
         }
@@ -153,12 +153,30 @@ namespace SchoolManagement.MVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var studentsCourse = await _context.StudentsCourses.FindAsync(id);
-            if (studentsCourse != null)
+            if (studentsCourse == null)
             {
-                _context.StudentsCourses.Remove(studentsCourse);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.StudentsCourses.Remove(studentsCourse);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Check if the exception is a constraint violation
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("constraint"))
+                {
+                    TempData["DeleteError"] = "Unable to delete teacher. There are related records in the database. Check if there is a Course associated to the Student.";
+                    
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

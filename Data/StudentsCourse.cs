@@ -23,6 +23,6 @@ public partial class StudentsCourse
     // Student fullname
     public string StudentFullName => Student?.LastName + ", " + Student?.FirstName;
     // Course name
-    public string CourseName => Course?.Name;
+    public string CourseName => Course?.Name ?? string.Empty;
     
 }

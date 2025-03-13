@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Students per Course</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -38,11 +38,68 @@
                 @Html.DisplayFor(modelItem => item.Student.FirstName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.Id">
+                    Delete
+                </button>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Are you sure you want to delete this item? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger" id="confirmDelete">Delete</a>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["DeleteError"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["DeleteError"]
+    </div>
+}
+
+<form asp-action="Delete" id="scDeleteForm" method="post">
+    <input type="hidden" id="scid" name="Id" />
+</form>
+
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            var scId; // Variable to store selected studentCourse's ID
+
+            // When the modal is about to be shown
+            $('#deleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                scId = button.data('id'); // Extract studentCourse ID
+
+                // Set the hidden input value
+                $('#scid').val(scId);
+            });
+
+            // When the delete button inside the modal is clicked
+            $('#confirmDelete').on('click', function () {
+                $('#scDeleteForm').submit(); // Submit the form
+            });
+        });
+    </script>
+}

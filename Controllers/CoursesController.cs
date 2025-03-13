@@ -146,12 +146,30 @@ namespace SchoolManagement.MVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var course = await _context.Courses.FindAsync(id);
-            if (course != null)
+
+            if (course == null)
             {
-                _context.Courses.Remove(course);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Courses.Remove(course);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Check if the exception is a constraint violation
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("constraint"))
+                {
+                    TempData["DeleteError"] = "Unable to delete teacher. There are related records in the database. Check if there is a a Teacher or Student associated to the Course.";
+                    
+                }
+                else
+                {
+                    throw;
+                }
+            }            
             return RedirectToAction(nameof(Index));
         }
 

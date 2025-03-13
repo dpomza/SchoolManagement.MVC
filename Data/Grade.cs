@@ -16,9 +16,9 @@ public partial class Grade
     public StudentsCourse? StudentsCourse { get; set; } 
 
     // StudentCourse fullname
-    public string StudentFullName => StudentsCourse?.Student.LastName + ", " + StudentsCourse?.Student.FirstName;
+    public string StudentFullName => (StudentsCourse?.Student?.LastName ?? "-") + ", " + (StudentsCourse?.Student?.FirstName ?? "-");
 
     // Course name
-    public string CourseName => StudentsCourse?.Course.Name;    
+    public string CourseName => StudentsCourse?.Course?.Name ?? "-";    
 
 }
