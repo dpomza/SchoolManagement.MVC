@@ -26,7 +26,8 @@
             @Html.DisplayNameFor(model => model.StudentsCourse)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentsCourse.Id)
+            @Html.DisplayFor(model => model.StudentsCourse.Course.Name)
+            @Html.DisplayFor(model => model.StudentsCourse.Student.LastName)
         </dd>
     </dl>
 </div>

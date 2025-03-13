@@ -11,7 +11,7 @@ public partial class Teacher
 
     public string LastName { get; set; } = null!;
 
-    public int? FileNumber { get; set; }
+    public int FileNumber { get; set; }
 
     public IEnumerable<Course> Courses { get; set; } = new List<Course>();
 }

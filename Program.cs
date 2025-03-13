@@ -3,7 +3,8 @@ using SchoolManagement.MVC.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the IoC (Inversion of Control) container. This is to make Dependency Injection of the DB Context to the Controllers
+// The DB Context is injected into the Controllers to enable the Controllers to interact with the Database
 var conn = builder.Configuration.GetConnectionString("SchoolManagementDbConnection");
 builder.Services.AddDbContext<SchoolMngmntDbContext>(q => q.UseSqlServer(conn));
 builder.Services.AddControllersWithViews();

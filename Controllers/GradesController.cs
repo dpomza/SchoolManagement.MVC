@@ -48,7 +48,7 @@ namespace SchoolManagement.MVC.Controllers
         // GET: Grades/Create
         public IActionResult Create()
         {
-            ViewData["StudentCourseId"] = new SelectList(_context.StudentsCourses, "Id", "Id");
+            ViewData["StudentCourseId"] = new SelectList(_context.StudentsCourses .Select(s => new { s.Id, StudCourField = s.Student.LastName + ", " + s.Student.FirstName + " / " + s.Course.Name }), "Id", "StudCourField");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace SchoolManagement.MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StudentCourseId"] = new SelectList(_context.StudentsCourses, "Id", "Id", grade.StudentCourseId);
+            ViewData["StudentCourseId"] = new SelectList(_context.StudentsCourses .Select(s => new { s.Id, StudCourField = s.Student.LastName + ", " + s.Student.FirstName + " / " + s.Course.Name }), "Id", "StudCourField", grade.StudentCourseId);
             return View(grade);
         }
 
@@ -83,7 +83,7 @@ namespace SchoolManagement.MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["StudentCourseId"] = new SelectList(_context.StudentsCourses, "Id", "Id", grade.StudentCourseId);
+            ViewData["StudentCourseId"] = new SelectList(_context.StudentsCourses .Select(s => new { s.Id, StudCourField = s.Student.LastName + ", " + s.Student.FirstName + " / " + s.Course.Name }), "Id", "StudCourField", grade.StudentCourseId);
             return View(grade);
         }
 
@@ -119,7 +119,7 @@ namespace SchoolManagement.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StudentCourseId"] = new SelectList(_context.StudentsCourses, "Id", "Id", grade.StudentCourseId);
+            ViewData["StudentCourseId"] = new SelectList(_context.StudentsCourses .Select(s => new { s.Id, StudCourField = s.Student.LastName + ", " + s.Student.FirstName + " / " + s.Course.Name }), "Id", "StudCourField", grade.StudentCourseId);
             return View(grade);
         }
 

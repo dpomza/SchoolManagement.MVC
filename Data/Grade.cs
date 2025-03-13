@@ -14,4 +14,5 @@ public partial class Grade
     //FK to StudentsCourses - Many to One
     public int StudentCourseId { get; set; }
     public StudentsCourse? StudentsCourse { get; set; } 
+
 }

@@ -13,7 +13,7 @@ public partial class Student
 
     public DateOnly? DateOfBirth { get; set; }
 
-    public int? FileNumber { get; set; }
+    public int FileNumber { get; set; } 
 
     //
     public IEnumerable<StudentsCourse> StudentsCourses { get; set; } = new List<StudentsCourse>();
